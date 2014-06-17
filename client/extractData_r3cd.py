@@ -1,8 +1,8 @@
 #-------------------
 # Author: Christian A. Damo
 # file name: extractData.py
-# rev. by:
-# rev. date:
+# rev. by: Christian A. Damo
+# rev. date: 2014-06-17
 #------------------
 #
 # Patch Notes:
@@ -28,6 +28,7 @@ import os
 import datetime
 import csv
 from copy import copy
+import xmlrpclib
 
 #print sys.argv[1]
 #print "successfully called"
@@ -126,7 +127,6 @@ for line in voltageTempNames:
 
 	#build group string
 	voltageGroupString = timestamp + " - " + dataType + " - " + "All Data"
-	
 
 for line in currentTempNames:
 	#get timestamp to create the group name
@@ -211,97 +211,8 @@ outputFile = open('output2.csv','wb')
 reader = csv.reader(inputFile)
 writer = csv.writer(outputFile)
 
-newRow = reader.next()
-if len(newRow) == 12:
-	newRow.remove('Dev1_ai1')
-writer.writerow(newRow)
-if len(newRow) == 11:
-	for row in reader:
-		newRow = []
-		newRow.append(row[0]) #timestamp
-		value = float(row[1])-0.023323 
-		value = value*1.25
-		newRow.append(value)
-		value = float(row[2])-0.024107 
-		value = value*1.25
-		newRow.append(value)
-		value = float(row[3])-0.029757 
-		value = value*1.25
-		newRow.append(value)
-		value = float(row[4])-0.027621
-		value = value*1.25
-		newRow.append(value)
-		value = float(row[5])-0.000362
-		value = value*1.25
-		newRow.append(value)
-		newRow.append(float(row[6])-0.025223)
-		value = value*.02-.001
-		newRow.append(value)
-		newRow.append(float(row[7])-0.179812)
-		value = value*.02-.001
-		newRow.append(value)
-		newRow.append(float(row[8])-0.203984)
-		value = value*.02-.001
-		newRow.append(value)
-		newRow.append(float(row[9])-0.160342)
-		value = value*.02-.001
-		newRow.append(value)
-		newRow.append(float(row[10]))
-		value = value*.02-.001
-		newRow.append(value)
-		writer.writerow(newRow)
-else:
-	for row in reader:
-		newRow = []
-		newRow.append(row[0]) #timestamp
-		value = float(row[1])-0.023323 #ai0 
-		value = value*1.25
-		newRow.append(value)
-		value = float(row[3])-0.024107 #ai2
-		value = value*1.25
-		newRow.append(value)
-		value = float(row[4])-0.029757 #ai3
-		value = value*1.25
-		newRow.append(value)
-		value = float(row[5])-0.027621 #ai4
-		value = value*1.25
-		newRow.append(value)
-		value = float(row[6])-0.000362 #ai5
-		value = value*1.25
-		newRow.append(value)
-		newRow.append(float(row[6])-0.025223) #ai6
-		value = value*.02-.001
-		newRow.append(value)
-		newRow.append(float(row[7])-0.179812) #ai8
-		value = value*.02-.001
-		newRow.append(value)
-		newRow.append(float(row[8])-0.203984) #ai9
-		value = value*.02-.001
-		newRow.append(value)
-		newRow.append(float(row[9])-0.160342) #ai10
-		value = value*.02-.001
-		newRow.append(value)
-		newRow.append(float(row[10]-.000000876)) #ai7
-		value = (value*1000)*0.0062-0.0246
-		newRow.append(value)
-		writer.writerow(newRow)
-
-#print "finished printing output2.csv"
-inputFile.close()
-outputFile.close()
-
-#here we put it in the Eileen Shape
-inputFile = open('output2.csv','r')
-
-outputFileName = str(sys.argv[1]) + '_output3.csv'
-outputFile = open(outputFileName,'wb')
-#print "writing " + outputFileName
-
-reader = csv.reader(inputFile)
-writer = csv.writer(outputFile)
-
 reader.next()
-newRow = ["timestamp","sensor","value"]
+newRow = ["datetime","position","value"]
 writer.writerow(newRow)
 
 newChannelNames = []
@@ -312,6 +223,8 @@ for name in channelNames:
 	
 	
 #print newChannelNames
+
+
 for row in reader:
 	currTime = row[0]
 	row = row[1:]
@@ -323,11 +236,154 @@ for row in reader:
 		#get sensor name
 		newRow.append(newChannelNames[x])
 		#get value
-		newRow.append(round(float(row[x]),5))
+		newRow.append(float(row[x]))
 		writer.writerow(newRow)
 #print "finished writing output3.csv"
 	
 inputFile.close()
 outputFile.close()
-		
 
+
+
+
+
+
+
+#if len(newRow) == 11:
+#	for row in reader:
+#		newRow = []
+#		newRow.append(row[0]) #timestamp
+#		value = float(row[1])-0.023323 
+#		value = value*1.25
+#		newRow.append(value)
+#		value = float(row[2])-0.024107 
+#		value = value*1.25
+#		newRow.append(value)
+#		value = float(row[3])-0.029757 
+#		value = value*1.25
+#		newRow.append(value)
+#		value = float(row[4])-0.027621
+#		value = value*1.25
+#		newRow.append(value)
+#		value = float(row[5])-0.000362
+#		value = value*1.25
+#		newRow.append(value)
+#		newRow.append(float(row[6])-0.025223)
+#		value = (value*2-10)*0.0040146
+#		newRow.append(value)
+#		newRow.append(float(row[7])-0.179812)
+#		value = value*.02-.001
+#		newRow.append(value)
+#		newRow.append(float(row[8])-0.203984)
+#		value = value*.02-.001
+#		newRow.append(value)
+#		newRow.append(float(row[9])-0.160342)
+#		value = value*.02-.001
+#		newRow.append(value)
+#		newRow.append(float(row[10]))
+#		value = value*.02-.001
+#		newRow.append(value)
+#		writer.writerow(newRow)
+#else:
+#	for row in reader:
+#		print "look at this one " + sys.argv[1]
+#		newRow = []
+#		newRow.append(row[0]) #timestamp
+#		value = float(row[1])-0.023323 #ai0 
+#		value = value*1.25
+#		newRow.append(value)
+#		value = float(row[3])-0.024107 #ai2
+#		value = value*1.25
+#		newRow.append(value)
+#		value = float(row[4])-0.029757 #ai3
+#		value = value*1.25
+#		newRow.append(value)
+#		value = float(row[5])-0.027621 #ai4
+#		value = value*1.25
+#		newRow.append(value)
+#		value = float(row[6])-0.000362 #ai5
+#		value = value*1.25
+#		newRow.append(value)
+#		newRow.append(float(row[6])-0.025223) #ai6
+#		value = (value*2-10)*0.0040146 #p26 gives value in pascals then 1pa = .0040146 inch WC
+#		#value = value*.02-.001
+#		newRow.append(value)
+#		newRow.append(float(row[7])-0.179812) #ai8
+#		value = value*.02-.001
+#		newRow.append(value)
+#		newRow.append(float(row[8])-0.203984) #ai9
+#		value = value*.02-.001
+#		newRow.append(value)
+#		newRow.append(float(row[9])-0.160342) #ai10
+#		value = value*.02-.001
+#		newRow.append(value)
+#		newRow.append(float(row[10]-.000000876)) #ai7
+#		value = (value*1000)*0.0062-0.0246
+#		newRow.append(value)
+#		writer.writerow(newRow)
+
+#print "finished printing output2.csv"
+
+#here we calibrate and scale
+inputFile = open('output2.csv','r')
+outputFileName = str(sys.argv[1]) + '_output3.csv'
+outputFile = open(outputFileName,'wb')
+
+reader = csv.reader(inputFile)
+writer = csv.writer(outputFile)
+
+
+#take care of the header
+newRow = reader.next()
+writer.writerow(newRow)
+
+for row in reader:
+	if row[1] == 'ai0':
+		value = float(row[2])-0.023323
+		value = value*1.25
+	if row[1] == 'ai1':
+		value = float(row[2])+10
+	if row[1] == 'ai2':
+		value = float(row[2])-0.024107
+		value = value*1.25
+	if row[1] == 'ai3':
+		value = float(row[2])-0.029757
+		value = value*1.25
+	if row[1] == 'ai4':
+		value = float(row[2])-0.027621
+		value = value*1.25
+	if row[1] == 'ai5':
+		value = float(row[2])-.000362
+		value = value*1.25
+	if row[1] == 'ai6':
+		value = float(row[2])-0.025223
+		value = (value*2.0-10.0)*0.0040146
+	if row[1] == 'ai7':
+		value = float(row[2])-.000000876
+		value = (value*1000)*0.0062-0.0246
+	if row[1] == 'ai8':
+		value = float(row[2])-0.179812
+		value = value*.02-.001
+	if row[1] == 'ai9':
+		value = float(row[2])-0.203984
+		value = value*.02-.001
+	if row[1] == 'ai10':
+		value = float(row[2])-0.160342
+		value = value*.02-.001
+	newRow = [row[0],row[1],round(value,5)]
+	writer.writerow(newRow)
+
+inputFile.close()
+outputFile.close()
+
+#to push to the server
+
+server = xmlrpclib.Server('http://128.171.152.55:9000')
+
+with open(outputFileName,"rb") as handle:
+	binary_data = xmlrpclib.Binary(handle.read())
+	server.push_csv_to_server(binary_data,outputFileName)
+       	
+os.remove(outputFileName)
+os.remove('output1.csv')
+os.remove('output2.csv')
