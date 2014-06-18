@@ -11,8 +11,10 @@ import shutil
 import sys
 import xmlrpclib
 
+
+ipAddress =''
 #setup the server connection for data transferring
-server = xmlrpclib.Server('http://128.171.152.55:9000')
+server = xmlrpclib.Server(ipAddress)
 inputFile = open("archive.csv","r")
 reader=csv.reader(inputFile)
 
