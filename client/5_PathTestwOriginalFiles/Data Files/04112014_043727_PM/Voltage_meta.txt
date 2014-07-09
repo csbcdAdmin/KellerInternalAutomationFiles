@@ -1,0 +1,36 @@
+Log name: 04/11/2014 04:37:27 PM
+User: eileen ellis
+Project name: Untitled 1
+File name: C:\Users\eileen ellis\Desktop\Documents\SignalExpress Data\04112014_043727_PM\Voltage.tdms
+File size: 20.767kB
+Log duration: 15 minutes, 54 seconds
+Log dt (s): 1
+Log iteration length (s): 1
+Number of sample in log: 954
+Log datatype: Time-WDT-Real
+Unit: V
+Log start time: 4/11/2014 16:37:28.528
+Time zone: Hawaiian Standard Time
+Writer name: SignalExpress 2013
+Writer version: 7.0
+File format version: 2.1
+Log signal names:
+     04/11/2014 04:37:27 PM - Voltage - Dev1_ai0
+     04/11/2014 04:37:27 PM - Voltage - Dev1_ai2
+     04/11/2014 04:37:27 PM - Voltage - Dev1_ai3
+     04/11/2014 04:37:27 PM - Voltage - Dev1_ai4
+     04/11/2014 04:37:27 PM - Voltage - Dev1_ai5
+     04/11/2014 04:37:27 PM - Voltage - Dev1_ai6
+     04/11/2014 04:37:27 PM - Voltage - Dev1_ai8
+     04/11/2014 04:37:27 PM - Voltage - Dev1_ai9
+     04/11/2014 04:37:27 PM - Voltage - Dev1_ai10
+
+
+Alarms:
+None
+
+Start conditions:
+None
+
+Stop conditions:
+None
