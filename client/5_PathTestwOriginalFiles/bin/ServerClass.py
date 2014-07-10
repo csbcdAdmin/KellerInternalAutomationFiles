@@ -1,8 +1,13 @@
 #--------------------------
 # Author: Christian A. Damo
 # date: 2014-06-17
+# rev by: Reed Shinsato
+# rev date: 2014=-0-09
 #--------------------------
-
+#
+# Patch Notes: Changing for class structure
+#
+#-------------------------
 import os
 import subprocess
 import os
@@ -73,13 +78,11 @@ for target_directory in target_directory_list:
         print "working on " + target_directory + " files..."
         for target_file in target_files:
             directory_path = os.path.join(target_directories, target_directory)
-            print directory_path
             file_path = os.path.join(directory_path, target_file)
             #with open(file_path, "rb") as handle:
                 # binary_data = xmlrpclib.Binary(handle.read())
                 # server.push_file_to_server(binary_data, target_directory, target_file)
-        print target_directory
-        #subprocess.call(["python", "NISignalExpressExtractClass.py", directory_path])
+        #subprocess.call(["python", "NISignalExpressExtractClass.py", str(directory_path)])
         new_row.append(target_directory)
 
 input_file.close()

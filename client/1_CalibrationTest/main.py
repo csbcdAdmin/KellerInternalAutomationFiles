@@ -12,18 +12,10 @@ import sys
 import xmlrpclib
 
 
-ipAddress =''
 #setup the server connection for data transferring
-server = xmlrpclib.Server(ipAddress)
 inputFile = open("archive.csv","r")
 reader=csv.reader(inputFile)
-
 #test to see if the API on the HIG205 server is listening
-try:
-	server.hello_world("Christian")
-except:
-	quit()
-
 
 targetDirectories = os.walk('.').next()[1]
 try:
@@ -35,6 +27,7 @@ try:
 	#remove all archived directories from target directories list
 	for archivedDirectory in archivedDirectories:
 		targetDirectories.remove(archivedDirectory)
+	print targetDirectories
 except:
 	newRow=[]	
 	print "no archived directories this time"
@@ -52,12 +45,16 @@ for targetDirectory in targetDirectories:
 			path = os.path.join(targetDirectory,targetFile)
 			with open(path,"rb") as handle:
 				binary_data = xmlrpclib.Binary(handle.read())
-				server.push_file_to_server(binary_data,targetDirectory,targetFile)
+				#server.push_file_to_server(binary_data,targetDirectory,targetFile)
 				handle.close()
 		#run the extraction and upload it to the server
-		subprocess.call(["python","extractData_r3cd.py",targetDirectory])
+		subprocess.call(["python","NISignalExpressExtractClass.py",targetDirectory])
 		#record that it was archived
 		newRow.append(targetDirectory)
 
 #write the list of directories uploaded to file
+inputFile.close()
+outputFile = open("archive.csv", "wb")
+writer = csv.writer(outputFile)
 writer.writerow(newRow)
+outputFile.close()
