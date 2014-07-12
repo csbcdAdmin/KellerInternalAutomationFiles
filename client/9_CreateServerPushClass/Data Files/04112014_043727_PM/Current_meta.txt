@@ -1,0 +1,28 @@
+Log name: 04/11/2014 04:37:27 PM
+User: eileen ellis
+Project name: Untitled 1
+File name: C:\Users\eileen ellis\Desktop\Documents\SignalExpress Data\04112014_043727_PM\Current.tdms
+File size: 3.887kB
+Log duration: 15 minutes, 54 seconds
+Log dt (s): 1
+Log iteration length (s): 1
+Number of sample in log: 954
+Log datatype: Time-WDT-Real
+Unit: 
+Log start time: 4/11/2014 16:37:28.528
+Time zone: Hawaiian Standard Time
+Writer name: SignalExpress 2013
+Writer version: 7.0
+File format version: 2.1
+Log signal names:
+     04/11/2014 04:37:27 PM - Current - Dev1_ai7
+
+
+Alarms:
+None
+
+Start conditions:
+None
+
+Stop conditions:
+None
